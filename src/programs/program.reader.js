@@ -11,6 +11,7 @@ const dbfMapping = {
     "PAYSHEKEL": "sumShekel",
     "PAYDOLAR": "sumDollar",
     "PAYDESTENY": "projectKey",
+    "NORMALLATE": "collectionDate"
 }
 
 //PAYNUM	LAKNUM	PAYHESH	DATEJOIN	DATEOPEN	DATECLOSE	DATECANCEL	CANCELCOSE	PAYSHEKEL	PAYDOLAR	
