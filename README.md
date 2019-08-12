@@ -79,7 +79,8 @@
 	        "closeDate": "1996-12-31T22:00:00.000Z",
 	        "sumShekel": 30,
 	        "sumDollar": 0,
-	        "projectKey": "00",
+	        "projectKey": "00",		
+        	"collectionDate": "20",
 	        "customer": {
 	            "key": "000001",
 	            "lastName": "ישי",
