@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import ProgramService from './program.service';
 
-const reportRouter = Router();
+const programRouter = Router();
 
-reportRouter.route('/:organizationKey/program')
+programRouter.route('/:organizationKey/program')
     .get(function (req, res, next) {
         const { organizationKey } = req.params;
 
@@ -17,4 +17,4 @@ reportRouter.route('/:organizationKey/program')
 
 
 
-export default reportRouter;
+export default programRouter;

@@ -2,9 +2,9 @@ import { Router } from 'express';
 import CollectionService from './collection.service';
 
 
-const reportRouter = Router();
+const collectionRouter = Router();
 
-reportRouter.route('/:organizationKey/collection')
+collectionRouter.route('/:organizationKey/collection')
     .get(function (req, res, next) {
         const { organizationKey } = req.params;
         const { date } = req.query;
@@ -21,4 +21,4 @@ reportRouter.route('/:organizationKey/collection')
 
 
 
-export default reportRouter;
+export default collectionRouter;

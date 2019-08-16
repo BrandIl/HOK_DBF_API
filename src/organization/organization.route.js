@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
 import OrganizationService from './organization.service';
-const reportRouter = Router();
+const organizationRouter = Router();
 
-reportRouter.route('/')
+organizationRouter.route('/')
     .get(function (req, res, next) {
         new OrganizationService()
             .getOrganizations()
@@ -13,7 +13,7 @@ reportRouter.route('/')
 
     });
 
-reportRouter.route('/:organizationKey')
+organizationRouter.route('/:organizationKey')
     .get(function (req, res, next) {
         const { organizationKey } = req.params;
 
@@ -23,7 +23,7 @@ reportRouter.route('/:organizationKey')
             })
     });
 
-reportRouter.route('/:organizationKey/project')
+organizationRouter.route('/:organizationKey/project')
     .get(function (req, res, next) {
         const { organizationKey } = req.params;
 
@@ -35,4 +35,4 @@ reportRouter.route('/:organizationKey/project')
 
 
 
-export default reportRouter;
+export default organizationRouter;

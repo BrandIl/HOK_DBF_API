@@ -2,9 +2,9 @@ import { Router } from 'express';
 
 import DollarRateService from './dollarRate.service';
 
-const reportRouter = Router();
+const dollarRateRouter = Router();
 
-reportRouter.route('/')
+dollarRateRouter.route('/')
     .get(function (req, res, next) {
         const { date } = req.query;
         new DollarRateService()
@@ -18,4 +18,4 @@ reportRouter.route('/')
 
 
 
-export default reportRouter;
+export default dollarRateRouter;

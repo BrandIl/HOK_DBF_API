@@ -20,15 +20,12 @@ const dbfMapping = {
 
 
 const isEmptyDate = (date) => {
-    return dateFormat(new Date(date), "yyyy-mm-dd") === '2175-12-20';
+    return ['2175-12-20', '1899-11-30'].includes(dateFormat(new Date(date), "yyyy-mm-dd"));
 }
 
 const handleGetPrograms = records => {
     return records.map((program) => {
-        const bankAccount = program.bankAccount && program.bankAccount.split(" ")
-
-
-        console.log(new Date(program.closeDate), dateFormat(new Date(program.closeDate), "yyyy-mm-dd"), isEmptyDate(program.closeDate));
+        const bankAccount = program.bankAccount && program.bankAccount.split(" ");
         return Object.assign({}, program, {
             bankAccount: bankAccount && {
                 bank: bankAccount[0],
