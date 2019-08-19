@@ -25,13 +25,14 @@ const isEmptyDate = (date) => {
 
 const handleGetPrograms = records => {
     return records.map((program) => {
+
         const bankAccount = program.bankAccount && program.bankAccount.split(" ");
         return Object.assign({}, program, {
-            bankAccount: bankAccount && {
+            bankAccount: bankAccount && !isNaN(bankAccount[0]) ? {
                 bank: bankAccount[0],
                 branch: bankAccount[1],
                 account: bankAccount[2]
-            },
+            } : undefined,
             cancelDate: isEmptyDate(program.cancelDate) ? undefined : new Date(program.cancelDate),
             joinDate: isEmptyDate(program.joinDate) ? undefined : new Date(program.joinDate),
             closeDate: isEmptyDate(program.closeDate) ? undefined : new Date(program.closeDate),
