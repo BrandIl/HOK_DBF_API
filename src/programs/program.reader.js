@@ -27,16 +27,19 @@ const handleGetPrograms = records => {
     return records.map((program) => {
 
         const bankAccount = program.bankAccount && program.bankAccount.split(" ");
+        const cancelDate = new Date(program.cancelDate),
+            closeDate = new Date(program.closeDate),
+            openDate = new Date(program.openDate);
         return Object.assign({}, program, {
             bankAccount: bankAccount && !isNaN(bankAccount[0]) ? {
                 bank: bankAccount[0],
                 branch: bankAccount[1],
                 account: bankAccount[2]
             } : undefined,
-            cancelDate: isEmptyDate(program.cancelDate) ? undefined : new Date(program.cancelDate),
+            cancelDate: isEmptyDate(program.cancelDate) ? undefined : new Date(cancelDate.getFullYear(), cancelDate.getMonth(), 1),
             joinDate: isEmptyDate(program.joinDate) ? undefined : new Date(program.joinDate),
-            closeDate: isEmptyDate(program.closeDate) ? undefined : new Date(program.closeDate),
-            openDate: isEmptyDate(program.openDate) ? undefined : new Date(program.openDate),
+            closeDate: isEmptyDate(program.closeDate) ? undefined : new Date(closeDate.getFullYear(), closeDate.getMonth() + 1, 1),
+            openDate: isEmptyDate(program.openDate) ? undefined : new Date(openDate.getFullYear(), openDate.getMonth(), 1),
             collectionDay: Number(program.collectionDay)
         })
     });
