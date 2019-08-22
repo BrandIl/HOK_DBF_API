@@ -4,11 +4,11 @@ import DollarRateService from './dollarRate.service';
 
 const dollarRateRouter = Router();
 
-dollarRateRouter.route('/')
+dollarRateRouter.route('/:date')
     .get(function (req, res, next) {
-        const { date } = req.query;
+        const { date } = req.params;
         new DollarRateService()
-            .getDollarRate(date)
+            .getDollarRate(new Date(date))
             .then(dollarRate => {
                 res.send({ dollarRate });
             })

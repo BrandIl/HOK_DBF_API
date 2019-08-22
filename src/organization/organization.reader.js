@@ -8,6 +8,7 @@ const dbfMapping = {
     "ADRRES": "address",
     "YOMGVIA": 'collectionDate',
     "EMAIL": 'email',
+    "CODSEND":"senderCode"
 }
 
 const handleGetOrganizations = records => {
