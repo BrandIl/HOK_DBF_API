@@ -12,6 +12,7 @@ dollarRateRouter.route('/:date')
             .then(dollarRate => {
                 res.send({ dollarRate });
             })
+            .catch(ex => res.send(ex))
 
 
     });
