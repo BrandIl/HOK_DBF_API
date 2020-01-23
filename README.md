@@ -75,7 +75,7 @@
 	        },
 	        "joinDate": "1996-01-12T22:00:00.000Z",
 	        "openDate": "1996-01-19T22:00:00.000Z",
-            "cancelDate": "2010-06-19T21:00:00.000Z",
+            	"cancelDate": "2010-06-19T21:00:00.000Z",
 	        "closeDate": "1996-12-31T22:00:00.000Z",
 	        "sumShekel": 30,
 	        "sumDollar": 0,
