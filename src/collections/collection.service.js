@@ -1,35 +1,62 @@
 
-import ProgramService from '../programs/program.service'
+import ProgramService from '../programs/program.service';
+import OrganizationService from '../organization/organization.service';
+
 import CollectionReader from './collection.reader';
 import dateForamt from 'dateformat';
 export default class CollectionService {
 
-    constructor(organizationKey) {
-        this.ProgramService = new ProgramService(organizationKey);
-        this.CollectionReader = new CollectionReader(organizationKey);
+    constructor() {
 
     }
 
-    getCollections(collectionDate) {
-        return this.CollectionReader
+    getOrganizationCollections(organizationKey) {
+
+        const collectionReader = new CollectionReader(organizationKey);
+        return collectionReader
             .getCollections();
     }
 
-    getCollectionsByDate(collectionDate) {
-        const getCollectionsPromise = this.CollectionReader
-            .getCollections()
-            .then(data => {
-                return data.filter(clc => dateForamt(new Date(clc.date), "ddmmyyyy") === dateForamt(new Date(collectionDate), "ddmmyyyy"));
-            });
-        const getProgramsPromise = this.ProgramService.getPrograms();
+    async getOrganizationCollectionsByDate(organizationKey, collectionDate) {
+        const collectionReader = new CollectionReader(organizationKey);        
+        const collections = await collectionReader.getCollectionsByDate(collectionDate);
 
-        return Promise.all([getCollectionsPromise, getProgramsPromise])
-            .then(([collections, programs]) => {
-                return collections.map(clc => {
-                    const program = programs.find(prg => prg.key == clc.programKey);
-                    return Object.assign({}, clc, { program });
-                })
+        const programService = new ProgramService(organizationKey);
+        const programs = await programService.getPrograms();
+
+        const _programs = programs.reduce((obj, prg) => {
+            obj[prg.key] = prg;
+            return obj;
+        }, {})
+
+        return collections.map(clc => {
+            const program = _programs[clc.programKey];
+            return Object.assign({}, clc, { program });
+        })
+
+    }
+
+    async getCollectionsByDate(collectionDate) {
+        const organizationService = new OrganizationService();
+        const organizations = await organizationService.getOrganizations();
+
+        const promises = organizations
+            .filter(org => org.collectionDate !== '00')
+
+            .map(async org => {
+
+                // const collectionReader = new CollectionReader(org.key);
+                const collections = await this.getOrganizationCollectionsByDate(org.key, collectionDate);
+                // const _collection = collections.filter(clc => dateForamt(new Date(clc.date), "ddmmyyyy") === dateForamt(new Date(collectionDate), "ddmmyyyy"))
+
+                // { collections: collections.filter(clc => dateForamt(new Date(clc.date), "ddmmyyyy") === dateForamt(new Date(collectionDate), "ddmmyyyy")) }
+                return Object.assign({}, org, { collections });
             });
+
+        const res = await Promise.all(promises);
+        return res;
+
+
     }
 
 

@@ -18,6 +18,7 @@ app.set('port', port);
 app.use('/organization', organizationRouter);
 app.use('/organization', programRouter);
 app.use('/organization', collectionRouter);
+app.use('/collection', collectionRouter);
 app.use('/dollarRate', dollarRateRouter);
 
 app.get('/', (req, res, next) => {

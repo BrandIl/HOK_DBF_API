@@ -1,5 +1,6 @@
 
 import dbfReader from '../common/dbfReader';
+import dateForamt from 'dateformat';
 
 const dbfMapping = {
     "SHEKEL": "sum",
@@ -16,15 +17,23 @@ const handleGetPrograms = records => {
 
 export default class CollectionReader {
 
-    constructor(organizationKey, date) {
+    constructor(organizationKey) {
         const { DBPATH: dataPath } = process.env;
         this.path = `${dataPath}\\${organizationKey}\\GVIA.DBF`;
     }
 
-    getCollections() {
-        return dbfReader.read(this.path, dbfMapping).then(data => {
-            return handleGetPrograms(data.records);
-        });
+    async getCollections() {
+
+        const data = await dbfReader.read(this.path, dbfMapping);
+        return handleGetPrograms(data.records);
+
+    }
+
+    async getCollectionsByDate(collectionDate) {
+
+        const data = await this.getCollections();
+        return data.filter(clc => dateForamt(new Date(clc.date), "ddmmyyyy") === dateForamt(new Date(collectionDate), "ddmmyyyy"));
+
     }
 }
 

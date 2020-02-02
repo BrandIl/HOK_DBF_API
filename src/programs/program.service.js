@@ -12,18 +12,26 @@ export default class ProgramService {
 
     }
 
-    getPrograms() {
-        const getProgramsPromise = this.ProgramReader.getPrograms();
-        const getCustomerPromise = this.CustomerReader.getCustomers();
-        const getProjectPromise = this.ProjectReader.getProjects();
-        return Promise.all([getProgramsPromise, getCustomerPromise, getProjectPromise])
-            .then(([programs, customers, projects]) => {
-                return programs.map(prg => {
-                    const customer = customers.find(csmr => csmr.key == prg.customerKey);
-                    const project = projects.find(prj => prj.key == prg.projectKey);
-                    return Object.assign({}, prg, { customer }, { project });
-                })
-            })
+    async getPrograms() {
+        const programs = await this.ProgramReader.getPrograms();
+
+        const customers = await this.CustomerReader.getCustomers();
+        const _customers = customers.reduce((obj, cst) => {
+            obj[cst.key] = cst;
+            return obj;
+        }, {});
+
+        const projects = await this.ProjectReader.getProjects();
+        const _projects = projects.reduce((obj, prj) => {
+            obj[prj.key] = prj;
+            return obj;
+        }, {});
+
+        return programs.map(prg => {
+            const customer = _customers[prg.customerKey];
+            const project = _projects[prg.projectKey];
+            return Object.assign({}, prg, { customer }, { project });
+        })
     }
 
 }
