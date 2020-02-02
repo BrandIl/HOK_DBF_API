@@ -18,7 +18,7 @@ export default class CollectionService {
     }
 
     async getOrganizationCollectionsByDate(organizationKey, collectionDate) {
-        const collectionReader = new CollectionReader(organizationKey);        
+        const collectionReader = new CollectionReader(organizationKey);
         const collections = await collectionReader.getCollectionsByDate(collectionDate);
 
         const programService = new ProgramService(organizationKey);
@@ -44,17 +44,13 @@ export default class CollectionService {
             .filter(org => org.collectionDate !== '00')
 
             .map(async org => {
-
-                // const collectionReader = new CollectionReader(org.key);
                 const collections = await this.getOrganizationCollectionsByDate(org.key, collectionDate);
-                // const _collection = collections.filter(clc => dateForamt(new Date(clc.date), "ddmmyyyy") === dateForamt(new Date(collectionDate), "ddmmyyyy"))
-
-                // { collections: collections.filter(clc => dateForamt(new Date(clc.date), "ddmmyyyy") === dateForamt(new Date(collectionDate), "ddmmyyyy")) }
                 return Object.assign({}, org, { collections });
             });
 
         const res = await Promise.all(promises);
-        return res;
+        return res.filter(org => org.collections.length);
+
 
 
     }
